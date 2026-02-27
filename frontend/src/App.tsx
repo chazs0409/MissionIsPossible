@@ -1,11 +1,12 @@
-import './App.css';
-import HealthCheck from './components/HealthCheck';
+import "./App.css";
+// import HealthCheck from './components/HealthCheck';
+import Landingpage from "./components/LandingPage";
 
 function App() {
   return (
     <div className="App">
-      <h1>Job Tracker Application</h1>
-      <HealthCheck />
+      {/* <HealthCheck /> */}
+      <Landingpage />
     </div>
   );
 }
