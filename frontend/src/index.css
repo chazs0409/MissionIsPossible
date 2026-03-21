@@ -1,76 +1,9 @@
-/* :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-} */
-
-/* a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-} */
-/* 
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-} */
-
-/* button {
-  color:white;
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-} */
-
-/* @media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
-} */
-
-/* ================
- */
-body {
+* {
   font-family: "Montserrat", sans-serif;
 }
 .landing-page {
-  min-height: 100vh;
-  background: linear-gradient(90deg, #2b2b2b 0%, #00ff66 100%);
+  height: auto;
+  background: #010330;
   margin: 0;
   padding: 0;
 }
@@ -86,11 +19,11 @@ header {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.096); /* мягкий серый прозрачный */
+  background-color: rgba(255, 255, 255, 0.108); 
 }
 
 .nav-link {
-  color: white;
+  color: #ffffff;
   font-size: 18px;
   text-decoration: none;
   font-weight: 500;
@@ -125,14 +58,13 @@ header {
 
 .hero-content h1 {
   font-size: 60px;
-   font-family: 'Poppins', sans-serif;
-
+  font-family: "Poppins", sans-serif;
 }
 
 .subtitle {
   font-size: 20px;
   font-weight: 600;
-  color: #fbff00;
+  color: #c8ffb0;
   margin-bottom: 15px;
 }
 
@@ -141,7 +73,7 @@ header {
   font-size: 16px;
   line-height: 1.5;
   margin-bottom: 30px;
-  color: #000000;
+  color: white;
   text-align: center;
 }
 
@@ -167,4 +99,17 @@ header {
 
 .guest-link:hover {
   text-decoration: underline;
+}
+.about {
+  display: flex;
+  justify-content: space-around;
+}
+.about-image {
+  width: 400px;
+  height: 400px;
+  object-fit: cover;
+  object-position: center;
+}
+.section {
+  max-width: 50%;
 }

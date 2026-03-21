@@ -1,4 +1,6 @@
 import logo from "../assets/logo.png";
+import job from "../assets/job.jpg";
+import Footer from "./Footer";
 
 const Landingpage = () => {
   return (
@@ -37,6 +39,24 @@ const Landingpage = () => {
           </a>
         </div>
       </div>
+      <div className="about">
+        <section className="section">
+          <h2>
+            Square One is built for international students who are tired of
+            hearing “We don’t sponsor.”{" "}
+          </h2>
+          <p>
+            We know how draining it is to job‑hunt when every application feels
+            uncertain. Square One highlights only employers who truly hire F‑1
+            students for OPT, CPT, STEM OPT, and H‑1B. By reviewing hiring
+            history and visa policies, we help you focus on real
+            opportunities—not guesswork.
+          </p>
+          <button className="primary-btn">Call to action</button>
+        </section>
+        <img src={job} alt="job 2d photo" className="about-image" />
+      </div>
+      <Footer />
     </main>
   );
 };
