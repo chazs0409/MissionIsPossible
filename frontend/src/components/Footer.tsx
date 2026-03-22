@@ -1,3 +1,4 @@
+
 import './Footer.css'; 
 import instagram from '../assets/instagram.svg';
 import linkedin from '../assets/linkedin.svg';
@@ -14,9 +15,16 @@ const Footer = () => {
                                     Find your next opportunity with employers 
                                     who actually hire international students.</p>
           <div className="social-icons">
+             <a href="https://www.instagram.com/atsquareone/" target="_blank" rel="noopener noreferrer">
              <img src={instagram} alt="Instagram" className="icon-instagram" />
+             </a>
+             <a href="https://www.linkedin.com/company/atsquareone/posts/?feedView=all" target="_blank" rel="noopener noreferrer">
              <img src={linkedin} alt="LinkedIn" className="icon-linkedin" />
+             </a>
+             <a href="https://www.facebook.com/atsquareone" target="_blank" rel="noopener noreferrer">
              <img src={x} alt="X" className="icon-x" />
+             </a>
+             
           </div>
         </div>
 
