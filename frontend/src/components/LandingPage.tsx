@@ -1,8 +1,10 @@
 import logo from "../assets/logo.png";
 import job from "../assets/job.jpg";
 import Footer from "./Footer";
+import { useNavigate } from "react-router-dom";
 
 const Landingpage = () => {
+    const navigate = useNavigate();
   return (
     <main className="landing-page">
       <header>
@@ -33,7 +35,9 @@ const Landingpage = () => {
             companies that actually hire international students.
           </p>
 
-          <button className="primary-btn">Continue with Email</button>
+          <button className="primary-btn" onClick={() => navigate("/search")}>
+            Continue with Email
+          </button>
           <a className="guest-link" href="#">
             Continue as a guest →
           </a>

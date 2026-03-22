@@ -1,0 +1,91 @@
+.search-page {
+  padding: 40px;
+  font-family: "Poppins", sans-serif;
+  background-color: #f8f8f8;
+}
+
+/* Search bar */
+.search-bar {
+  display: flex;
+  align-items: center;
+  border: 1px solid #cfcfcf;
+  border-radius: 40px;
+  padding: 10px 15px;
+  background-color: white;
+}
+
+.search-bar input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  padding-left: 10px;
+}
+
+.search-btn {
+  background-color: #1e73e8;
+  border: none;
+  color: white;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Filters row */
+.filters-row {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.filter-btn {
+  padding: 8px 18px;
+  border-radius: 10px;
+  border: 1px solid #999;
+  background-color: white;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* Divider */
+.divider {
+  height: 1px;
+  background-color: #bdbdbd;
+  margin: 20px 0;
+}
+
+/* Active filters */
+.active-filters {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.filter-tag {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border: 1px solid #999;
+  border-radius: 20px;
+  background-color: white;
+  font-size: 14px;
+}
+
+.remove-filters {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: 10px;
+  color: #777;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.icon {
+  font-size: 12px;
+}
