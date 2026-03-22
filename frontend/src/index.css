@@ -104,6 +104,12 @@ header {
   display: flex;
   justify-content: space-around;
 }
+
+.examples {
+  font-size: 16px;
+  font-weight: 600;
+  color: #c8ffb0;
+}
 .about-image {
   width: 400px;
   height: 400px;
@@ -112,4 +118,5 @@ header {
 }
 .section {
   max-width: 50%;
+  color: white;
 }

@@ -1,0 +1,78 @@
+.footer {
+  background-color: #010330; /* Very dark navy/black background */
+  padding: 60px 40px;
+  font-family: 'Inter', sans-serif; /* Or your preferred font */
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap; /* Ensures it looks good on mobile */
+  gap: 40px;
+}
+
+.footer-brand {
+  max-width: 300px;
+}
+
+.footer-logo {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.footer-desc {
+  color: #94a3b8; /* Muted gray color */
+  font-size: 15px;
+  line-height: 1.5;
+  margin-bottom: 24px;
+}
+
+/* Target all images inside the social-icons div */
+.social-icons img {
+  width: 24px; 
+  height: 24px;
+  object-fit: contain; /* Ensures the logo doesn't stretch */
+  cursor: pointer;  
+  filter: brightness(0) invert(1);
+  /* Optional: To match the "muted" look in your screenshot */
+  opacity: 0.6; 
+  transition: opacity 0.3s ease;
+}
+
+.social-icons img:hover {
+  opacity: 1; /* Brightens up when you hover */
+}
+
+.footer-links {
+  display: flex;
+  gap: 80px; /* Space between the three columns */
+}
+
+.link-column h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.link-column ul {
+  list-style: none;
+  padding: 0;
+}
+
+.link-column li {
+  margin-bottom: 12px;
+}
+
+.link-column a {
+  color: #94a3b8;
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.2s;
+}
+
+.link-column a:hover {
+  color: white;
+}
