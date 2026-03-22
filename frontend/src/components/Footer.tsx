@@ -1,19 +1,6 @@
-// const Footer = () => {
-//   return (
-//     <footer className="footer">
-//       FOOTER TEXT TEST Lorem ipsum dolor sit amet consectetur adipisicing elit.
-//       Tempore veniam doloremque deserunt, exercitationem rerum corporis nihil
-//       iste sunt ratione nemo ipsum ea cum laudantium voluptates nulla nobis
-//       blanditiis accusantium incidunt!
-//       {/* Footer code here
-//     Also use footer.css for styling */}
-//     </footer>
-//   );
-// };
-// export default Footer;
 import './Footer.css'; 
 import instagram from '../assets/instagram.svg';
-import linkedin from '../assets/linkedin1.svg';
+import linkedin from '../assets/linkedin.svg';
 import x from '../assets/x.svg';
 
 const Footer = () => {
@@ -23,9 +10,10 @@ const Footer = () => {
         {/* Left Section: Logo, Description, and Socials */}
         <div className="footer-brand">
           <h2 className="footer-logo">Square One</h2>
-          <p className="footer-desc">Descriptive line about what your company does.</p>
+          <p className="footer-desc">Navigating the path from OPT to H-1B. 
+                                    Find your next opportunity with employers 
+                                    who actually hire international students.</p>
           <div className="social-icons">
-             {/* You can replace these with actual icon components later */}
              <img src={instagram} alt="Instagram" className="icon-instagram" />
              <img src={linkedin} alt="LinkedIn" className="icon-linkedin" />
              <img src={x} alt="X" className="icon-x" />
