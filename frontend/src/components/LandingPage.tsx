@@ -48,7 +48,7 @@ const Landingpage = () => {
           <p>
             We know how draining it is to job‑hunt when every application feels
             uncertain. Square One highlights only employers who truly hire F‑1
-            students for OPT, CPT, STEM OPT, and H‑1B. By reviewing hiring
+            students for <span className="examples">OPT, CPT, STEM OPT, and H‑1B</span>. By reviewing hiring
             history and visa policies, we help you focus on real
             opportunities—not guesswork.
           </p>
