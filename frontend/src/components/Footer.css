@@ -14,7 +14,11 @@
 }
 
 .footer-brand {
-  max-width: 300px;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
 .footer-logo {
@@ -30,14 +34,21 @@
   margin-bottom: 24px;
 }
 
+.social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
 /* Target all images inside the social-icons div */
 .social-icons img {
   width: 24px; 
   height: 24px;
   object-fit: contain; /* Ensures the logo doesn't stretch */
   cursor: pointer;  
+  gap: 40px; /* Space between icons */
   filter: brightness(0) invert(1);
-  /* Optional: To match the "muted" look in your screenshot */
   opacity: 0.6; 
   transition: opacity 0.3s ease;
 }
