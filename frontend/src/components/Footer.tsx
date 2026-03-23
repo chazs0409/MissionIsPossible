@@ -1,5 +1,5 @@
 
-import './Footer.css'; 
+import './componentcss/footer.css'; 
 import instagram from '../assets/instagram.svg';
 import linkedin from '../assets/linkedin.svg';
 import x from '../assets/x.svg';
