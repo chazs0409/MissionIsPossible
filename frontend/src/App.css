@@ -1,14 +1,16 @@
-#root {
-  /* width: 1970px; */
-  max-width: 100%;
-  margin: auto;
-  text-align: center;
+.container {
+  /* width: 1970px;
+  /* max-width: 100%; */
+  /* margin: auto;
+  text-align: center; */
+  max-width: 1200px; /* или 1000px, как тебе нравится */
+  margin: 0 auto; /* вот это центрирует */
+  padding: 0;
 }
 
 html,
 body,
 #root {
   height: 100%;
-  margin: 0;
   padding: 0;
 }
