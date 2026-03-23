@@ -45,7 +45,7 @@
 .social-icons img {
   width: 24px; 
   height: 24px;
-  object-fit: contain; /* Ensures the logo doesn't stretch */
+  object-fit: contain;
   cursor: pointer;  
   gap: 40px; /* Space between icons */
   filter: brightness(0) invert(1);
