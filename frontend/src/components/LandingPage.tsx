@@ -2,6 +2,7 @@ import logo from "../assets/logo.png";
 import job from "../assets/job.jpg";
 import Footer from "./Footer";
 import { useNavigate } from "react-router-dom";
+import "./componentcss/reviews.css";
 
 const Landingpage = () => {
   const navigate = useNavigate();
