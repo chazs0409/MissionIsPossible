@@ -64,7 +64,7 @@ const Landingpage = () => {
           <img src={job} alt="job 2d photo" className="about-image" />
         </div>
 
-        <section className="reviews">
+ <section className="reviews">
   <h2>Student Reviews</h2>
 
   <div className="review-container">
