@@ -2,6 +2,7 @@ import logo from "../assets/logo.png";
 import job from "../assets/job.jpg";
 import Footer from "./Footer";
 import { useNavigate } from "react-router-dom";
+import "./componentcss/reviews.css";
 
 const Landingpage = () => {
   const navigate = useNavigate();
@@ -62,6 +63,29 @@ const Landingpage = () => {
           </section>
           <img src={job} alt="job 2d photo" className="about-image" />
         </div>
+
+ <section className="reviews">
+  <h2>Student Reviews</h2>
+
+  <div className="review-container">
+    <div className="review">
+      <p>"This platform made my job search so much easier!"</p>
+      <h4>- Sarah K.</h4>
+    </div>
+
+    <div className="review">
+      <p>"Finally found companies that actually sponsor visas."</p>
+      <h4>- Rahul P.</h4>
+    </div>
+
+    <div className="review">
+      <p>"Super helpful for F1 students like me."</p>
+      <h4>- Emily L.</h4>
+    </div>
+  </div>
+
+</section>
+
         <Footer />
       </div>
     </main>
