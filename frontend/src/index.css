@@ -118,3 +118,14 @@ header {
   max-width: 50%;
   color: white;
 }
+
+
+* {
+  font-family: "Montserrat", sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.landing-page {
+  height: auto;
+}
