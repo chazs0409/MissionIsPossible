@@ -4,6 +4,13 @@
   background-color: #f8f8f8;
 }
 
+.search-pg-logo {
+  height: 20;
+  width: auto;
+  align-items: left;
+  margin-bottom: 20px;
+}
+
 /* Search bar */
 .search-bar {
   display: flex;
