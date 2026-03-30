@@ -1,13 +1,15 @@
-import { useState } from 'react';
-import './App.css';
-import HealthCheck from './components/HealthCheck';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import LandingPage from "./components/LandingPage";
+import SearchPage from "./components/SearchPage";
 
 function App() {
   return (
-    <div className="App">
-      <h1>Job Tracker Application Chastity</h1>
-      <HealthCheck />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/search" element={<SearchPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
