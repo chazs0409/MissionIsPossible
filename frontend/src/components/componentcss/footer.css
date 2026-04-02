@@ -17,11 +17,12 @@
   max-width: 400px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
+  align-items: left;
+  text-align: left;
 }
 
 .footer-logo {
+  color: white;
   font-size: 24px;
   font-weight: 700;
   margin-bottom: 12px;
@@ -37,6 +38,7 @@
 .social-icons {
   display: flex;
   justify-content: center;
+  justify-content: flex-start; /* This is the key change! */
   gap: 20px;
   margin-bottom: 30px;
 }
@@ -63,6 +65,7 @@
 }
 
 .link-column h4 {
+  color: white;
   font-size: 16px;
   font-weight: 600;
   margin-bottom: 20px;

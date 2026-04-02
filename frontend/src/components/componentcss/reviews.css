@@ -1,0 +1,32 @@
+.reviews {
+  padding: 60px 20px;
+  background-color: 010330;
+  text-align: center;
+}
+
+.review-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.review {
+  background: white;
+  padding: 20px;
+  max-width: 300px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.review p {
+  font-style: italic;
+}
+
+.review h4 {
+  margin-top: 10px;
+  color: #555;
+}
+.reviews h2 {
+  color: white !important;
+}
