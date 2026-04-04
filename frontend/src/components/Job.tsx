@@ -1,10 +1,28 @@
-import { useState } from "react";
-import { jobs } from "./jobs"; // твой массив
+import { useState, useEffect } from "react";
 import "./componentcss/searchpage.css";
 
 const JobSection = () => {
-  const [selectedJob, setSelectedJob] = useState(jobs[0]);
+  const [jobs, setJobs] = useState<any[]>([]);
+  const [selectedJob, setSelectedJob] = useState<any>(null);
   const [activeTab, setActiveTab] = useState("description");
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // This calls Django backend
+    fetch("http://127.0.0.1:8000/api/jobs/")
+      .then((res) => res.json())
+      .then((data) => {
+        // Django REST Framework often puts data in a .results array
+        const fetchedJobs = data.results || data;
+        setJobs(fetchedJobs);
+        setSelectedJob(fetchedJobs[0]);
+        setLoading(false);
+      })
+      .catch((err) => console.error("Error fetching jobs:", err));
+  }, []);
+
+  if (loading) return <div>Fetching jobs from Database...</div>;
+  if (jobs.length === 0) return <div>No jobs found in database.</div>;
 
   return (
     <div className="job-page">
@@ -13,57 +31,25 @@ const JobSection = () => {
         {jobs.map((job) => (
           <div
             key={job.id}
-            className={`job-card ${selectedJob.id === job.id ? "active" : ""}`}
+            className={`job-card ${selectedJob?.id === job.id ? "active" : ""}`}
             onClick={() => setSelectedJob(job)}
           >
-            <div className="job-card-header">
-              <div className="job-icon" />
-              <button className="apply-btn-small">Apply</button>
-            </div>
-
             <h3 className="title">{job.title}</h3>
-            <p className="company">{job.company}</p>
+            <p className="company">{job.company_name}</p>
             <p className="location">{job.location}</p>
             <p className="salary">{job.salary}</p>
-
-            <div className="tags">
-              {job.tags.map((tag, index) => (
-                <span key={index} className="tag">
-                  {tag}
-                </span>
-              ))}
-            </div>
           </div>
         ))}
       </div>
 
       {/* RIGHT SIDE — JOB DETAILS */}
       <div className="job-details">
-        <div className="details-header">
-          <div className="job-icon-large" />
-          <button
-            className="apply-btn"
-            onClick={() => window.open(selectedJob.applyUrl, "_blank")}
-          >
-            Apply
-          </button>
-        </div>
-
         <h2>{selectedJob.title}</h2>
-        <p className="company">{selectedJob.company}</p>
+        <p className="company">{selectedJob.company_name}</p>
         <p className="location">{selectedJob.location}</p>
 
-        <div className="tags">
-          {selectedJob.tags.map((tag, index) => (
-            <span key={index} className="tag">
-              {tag}
-            </span>
-          ))}
-        </div>
-
-        {/* TABS */}
         <div className="tabs">
-          {["description", "qualification", "benefits", "about"].map((tab) => (
+          {["description", "requirements", "benefit", "about"].map((tab) => (
             <div
               key={tab}
               className={`tab ${activeTab === tab ? "active" : ""}`}
@@ -74,18 +60,19 @@ const JobSection = () => {
           ))}
         </div>
 
-        {/* TAB CONTENT */}
         <div className="tab-content">
+          <a 
+          href={selectedJob.job_url} 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          className="apply-btn"
+        >
+          Apply Now
+        </a>
           {activeTab === "description" && <p>{selectedJob.description}</p>}
-          {activeTab === "qualification" && (
-            <p>{selectedJob.qualification || "No qualifications provided."}</p>
-          )}
-          {activeTab === "benefits" && (
-            <p>{selectedJob.benefits || "No benefits listed."}</p>
-          )}
-          {activeTab === "about" && (
-            <p>{selectedJob.aboutCompany || "No company info available."}</p>
-          )}
+          {activeTab === "requirements" && <p>{selectedJob.requirements}</p>}
+          {activeTab === "benefit" && <p>{selectedJob.benefit}</p>}
+          {activeTab === "about" && <p>{selectedJob.about_company}</p>}
         </div>
       </div>
     </div>
