@@ -25,9 +25,9 @@ const SearchPage = () => {
       {/* Filters row */}
       <div className="filters-row">
         <button className="filter-btn">Filter 1</button>
-        <button className="filter-btn">Filter 1</button>
-        <button className="filter-btn">Filter 1</button>
-        <button className="filter-btn">Filter 1</button>
+        <button className="filter-btn">Filter 2</button>
+        <button className="filter-btn">Filter 3</button>
+        <button className="filter-btn">Filter 4</button>
       </div>
 
       {/* Divider */}
