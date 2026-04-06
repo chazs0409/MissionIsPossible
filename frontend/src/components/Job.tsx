@@ -1,19 +1,30 @@
 import { useState, useEffect } from "react";
 import "./componentcss/searchpage.css";
 
+interface Job {
+  id: number;
+  title: string;
+  company_name: string;
+  location: string;
+  salary: string;
+  description: string;
+  requirements: string;
+  benefit: string;
+  about_company: string;
+  job_url: string;
+}
+
 const JobSection = () => {
-  const [jobs, setJobs] = useState<any[]>([]);
-  const [selectedJob, setSelectedJob] = useState<any>(null);
+  const [jobs, setJobs] = useState<Job[]>([]);
+  const [selectedJob, setSelectedJob] = useState<Job | null>(null);
   const [activeTab, setActiveTab] = useState("description");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // This calls Django backend
     fetch("http://127.0.0.1:8000/api/jobs/")
       .then((res) => res.json())
       .then((data) => {
-        // Django REST Framework often puts data in a .results array
-        const fetchedJobs = data.results || data;
+        const fetchedJobs: Job[] = data.results || data;
         setJobs(fetchedJobs);
         setSelectedJob(fetchedJobs[0]);
         setLoading(false);
@@ -22,8 +33,7 @@ const JobSection = () => {
   }, []);
 
   if (loading) return <div>Fetching jobs from Database...</div>;
-  if (jobs.length === 0) return <div>No jobs found in database.</div>;
-
+  if (!selectedJob) return <div>No jobs found in database.</div>;
   return (
     <div className="job-page">
       {/* LEFT SIDE — LIST OF JOBS */}
@@ -31,7 +41,7 @@ const JobSection = () => {
         {jobs.map((job) => (
           <div
             key={job.id}
-            className={`job-card ${selectedJob?.id === job.id ? "active" : ""}`}
+            className={`job-card ${selectedJob.id === job.id ? "active" : ""}`}
             onClick={() => setSelectedJob(job)}
           >
             <h3 className="title">{job.title}</h3>
@@ -44,10 +54,11 @@ const JobSection = () => {
 
       {/* RIGHT SIDE — JOB DETAILS */}
       <div className="job-details">
-        <h2>{selectedJob.title}</h2>
+        <h3>{selectedJob.title}</h3>
         <p className="company">{selectedJob.company_name}</p>
         <p className="location">{selectedJob.location}</p>
 
+        {/* TABS */}
         <div className="tabs">
           {["description", "requirements", "benefit", "about"].map((tab) => (
             <div
@@ -60,15 +71,17 @@ const JobSection = () => {
           ))}
         </div>
 
+        {/* TAB CONTENT */}
         <div className="tab-content">
-          <a 
-          href={selectedJob.job_url} 
-          target="_blank" 
-          rel="noopener noreferrer" 
-          className="apply-btn"
-        >
-          Apply Now
-        </a>
+          <a
+            href={selectedJob.job_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="apply-btn"
+          >
+            Apply Now
+          </a>
+
           {activeTab === "description" && <p>{selectedJob.description}</p>}
           {activeTab === "requirements" && <p>{selectedJob.requirements}</p>}
           {activeTab === "benefit" && <p>{selectedJob.benefit}</p>}
