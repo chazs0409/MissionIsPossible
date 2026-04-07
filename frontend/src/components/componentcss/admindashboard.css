@@ -1,0 +1,146 @@
+/* ---------- NAVBAR ---------- */
+
+.admin-wrapper {
+  width: 100%;
+}
+
+.admin-navbar {
+  width: 100%;
+  padding: 16px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e5e5e5;
+  background: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.admin-logo {
+  height: 40px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.admin-logo:hover {
+  opacity: 0.8;
+}
+
+.signout-btn {
+  padding: 10px 18px;
+  background: #111;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  transition: 0.2s;
+}
+
+.signout-btn:hover {
+  background: #333;
+}
+
+/* ---------- PAGE CONTENT ---------- */
+
+.admin-container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+  font-family: "Inter", sans-serif;
+}
+
+.admin-title {
+  font-size: 32px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #111;
+}
+
+.admin-tabs {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 25px;
+}
+
+.admin-tab {
+  padding: 10px 18px;
+  border: 1px solid #dcdcdc;
+  background: #fff;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  transition: 0.2s;
+}
+
+.admin-tab.active {
+  background: #111;
+  color: #fff;
+  border-color: #111;
+}
+
+.admin-card {
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+}
+
+.admin-card h2 {
+  margin-bottom: 20px;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.admin-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.admin-form label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
+.admin-form input,
+.admin-form textarea,
+.admin-form select {
+  padding: 12px;
+  border: 1px solid #dcdcdc;
+  border-radius: 8px;
+  font-size: 15px;
+  background: #fafafa;
+  transition: 0.2s;
+}
+
+.admin-form input:focus,
+.admin-form textarea:focus,
+.admin-form select:focus {
+  border-color: #111;
+  background: #fff;
+}
+
+.admin-form textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.admin-btn {
+  margin-top: 10px;
+  padding: 12px 18px;
+  background: #111;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.admin-btn:hover {
+  background: #333;
+}

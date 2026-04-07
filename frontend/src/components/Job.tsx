@@ -1,19 +1,19 @@
-import { useState } from "react";
-import { jobs } from "./jobs";
+import { useEffect, useState } from "react";
 import "./componentcss/searchpage.css";
 
 interface Job {
   id: number;
   title: string;
-  company: string;
+  company_name: string;
   location: string;
   salary: string;
-  tags: string[];
+  employment_type: string;
+  work_mode: string;
   description: string;
-  qualification: string;
-  benefits: string;
-  aboutCompany: string;
-  applyUrl: string;
+  requirements: string;
+  benefit: string;
+  about_company: string;
+  job_url: string;
 }
 
 const JobSection = ({
@@ -23,29 +23,50 @@ const JobSection = ({
   activeFilters: string[];
   searchQuery: string;
 }) => {
-  const [selectedJob, setSelectedJob] = useState<Job>(jobs[0]);
+  const [jobs, setJobs] = useState<Job[]>([]);
+  const [selectedJob, setSelectedJob] = useState<Job | null>(null);
   const [activeTab, setActiveTab] = useState("description");
 
+  // Fetch jobs from backend
+  useEffect(() => {
+    fetch("http://localhost:8000/api/jobs/")
+      .then((res) => res.json())
+      .then((data) => {
+        const jobList = Array.isArray(data) ? data : data.results;
+        setJobs(jobList);
+        if (jobList.length > 0) setSelectedJob(jobList[0]);
+      })
+      .catch((err) => console.error("Error fetching jobs:", err));
+  }, []);
+
+  // FILTERING (fixed for backend structure)
   const filteredJobs = jobs.filter((job) => {
     const query = searchQuery.toLowerCase();
 
     const matchesSearch =
       query === "" ||
       job.title.toLowerCase().includes(query) ||
-      job.company.toLowerCase().includes(query) ||
+      job.company_name.toLowerCase().includes(query) ||
       job.location.toLowerCase().includes(query) ||
-      job.tags.some((tag) => tag.toLowerCase().includes(query));
+      job.employment_type.toLowerCase().includes(query) ||
+      job.work_mode.toLowerCase().includes(query);
 
     const matchesFilters =
       activeFilters.length === 0 ||
-      activeFilters.some((filter) =>
-        job.tags.some((tag) =>
-          tag.toLowerCase().includes(filter.toLowerCase())
-        )
-      );
+      activeFilters.some((filter) => {
+        const f = filter.toLowerCase();
+        return (
+          job.employment_type.toLowerCase().includes(f) ||
+          job.work_mode.toLowerCase().includes(f)
+        );
+      });
 
     return matchesSearch && matchesFilters;
   });
+
+  if (!selectedJob) {
+    return <p style={{ padding: "20px" }}>Loading jobs...</p>;
+  }
 
   return (
     <div className="job-page">
@@ -66,16 +87,15 @@ const JobSection = ({
                 <div className="job-icon" />
                 <button className="apply-btn-small">Apply</button>
               </div>
+
               <h3 className="title">{job.title}</h3>
-              <p className="company">{job.company}</p>
+              <p className="company">{job.company_name}</p>
               <p className="location">{job.location}</p>
               <p className="salary">{job.salary}</p>
+
               <div className="tags">
-                {job.tags.map((tag, index) => (
-                  <span key={index} className="tag">
-                    {tag}
-                  </span>
-                ))}
+                <span className="tag">{job.employment_type}</span>
+                <span className="tag">{job.work_mode}</span>
               </div>
             </div>
           ))
@@ -88,27 +108,24 @@ const JobSection = ({
           <div className="job-icon-large" />
           <button
             className="apply-btn"
-            onClick={() => window.open(selectedJob.applyUrl, "_blank")}
+            onClick={() => window.open(selectedJob.job_url, "_blank")}
           >
             Apply
           </button>
         </div>
 
-        <h2>{selectedJob.title}</h2>
-        <p className="company">{selectedJob.company}</p>
+        <h3>{selectedJob.title}</h3>
+        <p className="company">{selectedJob.company_name}</p>
         <p className="location">{selectedJob.location}</p>
 
         <div className="tags">
-          {selectedJob.tags.map((tag, index) => (
-            <span key={index} className="tag">
-              {tag}
-            </span>
-          ))}
+          <span className="tag">{selectedJob.employment_type}</span>
+          <span className="tag">{selectedJob.work_mode}</span>
         </div>
 
         {/* TABS */}
         <div className="tabs">
-          {["description", "qualification", "benefits", "about"].map((tab) => (
+          {["description", "requirements", "benefit", "about"].map((tab) => (
             <div
               key={tab}
               className={`tab ${activeTab === tab ? "active" : ""}`}
@@ -122,7 +139,7 @@ const JobSection = ({
         {/* TAB CONTENT */}
         <div className="tab-content">
           <a
-            href={selectedJob.applyUrl}
+            href={selectedJob.job_url}
             target="_blank"
             rel="noopener noreferrer"
             className="apply-btn"
@@ -131,9 +148,9 @@ const JobSection = ({
           </a>
 
           {activeTab === "description" && <p>{selectedJob.description}</p>}
-          {activeTab === "qualification" && <p>{selectedJob.qualification}</p>}
-          {activeTab === "benefits" && <p>{selectedJob.benefits}</p>}
-          {activeTab === "about" && <p>{selectedJob.aboutCompany}</p>}
+          {activeTab === "requirements" && <p>{selectedJob.requirements}</p>}
+          {activeTab === "benefit" && <p>{selectedJob.benefit}</p>}
+          {activeTab === "about" && <p>{selectedJob.about_company}</p>}
         </div>
       </div>
     </div>

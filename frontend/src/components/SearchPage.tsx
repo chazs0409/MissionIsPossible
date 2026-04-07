@@ -3,7 +3,7 @@ import { FaSearch, FaTimes } from "react-icons/fa";
 import "./componentcss/searchpage.css";
 import JobSection from "./Job";
 
-const filters = ["Full-Time", "Part-Time", "Remote", "Online", "Internship"];
+const filters = ["Full-Time", "Part-Time", "Remote", "Onsite", "Internship"];
 
 const SearchPage = () => {
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
