@@ -1,8 +1,7 @@
 from rest_framework import serializers
 from .models import Job
 
-
 class JobSerializer(serializers.ModelSerializer):
     class Meta:
         model = Job
-        fields = '__all__' # This sends all columns to React
+        fields = '__all__'

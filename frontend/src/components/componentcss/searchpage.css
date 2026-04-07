@@ -233,6 +233,7 @@
 
 .apply-btn {
   display: inline-block;
+  border: none;
   background-color: #2563eb; /* A more professional modern blue */
   color: white;
   padding: 10px 24px;
