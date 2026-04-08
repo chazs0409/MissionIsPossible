@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth.models import AbstractUser
 class Job(models.Model):
 
     EMPLOYMENT_TYPE_CHOICES = [
@@ -44,3 +44,18 @@ class Job(models.Model):
 
     def __str__(self):
         return self.title
+        
+class User(AbstractUser):
+    username = None  # отключаем username
+    email = models.EmailField(unique=True)
+
+    name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+
+    saved_jobs = models.ManyToManyField("Job", blank=True)
+
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ["name", "last_name"]
+
+    def __str__(self):
+        return self.email

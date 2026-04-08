@@ -121,3 +121,4 @@ SIMPLE_JWT = {
 # CORS settings
 CORS_ALLOW_ALL_ORIGINS = True #For development only, specify allowed origins in production
 CORS_ALLOW_CREDENTIALS = True
+AUTH_USER_MODEL = "api.User"
