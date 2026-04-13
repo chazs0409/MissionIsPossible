@@ -233,6 +233,7 @@
 
 .apply-btn {
   display: inline-block;
+  border: none;
   background-color: #2563eb; /* A more professional modern blue */
   color: white;
   padding: 10px 24px;
@@ -321,3 +322,10 @@
 .job-details::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
 }
+
+.filter-btn.active {
+  background-color: #1e73e8;
+  color: white;
+  border-color: #1e73e8;
+}
+

@@ -1,22 +1,38 @@
+import { useState } from "react";
 import { FaSearch, FaTimes } from "react-icons/fa";
-// import { FaSearch } from "react-icons/fa";
-// import FaTimes from "react-icons"
 import "./componentcss/searchpage.css";
-import squre_logo from "../assets/square_one_logo.png";
 import JobSection from "./Job";
 
+const filters = ["Full-Time", "Part-Time", "Remote", "Onsite", "Internship"];
+
 const SearchPage = () => {
+  const [activeFilters, setActiveFilters] = useState<string[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const toggleFilter = (filter: string) => {
+    setActiveFilters((prev) =>
+      prev.includes(filter)
+        ? prev.filter((f) => f !== filter)
+        : [...prev, filter],
+    );
+  };
+
+  const removeFilter = (filter: string) => {
+    setActiveFilters((prev) => prev.filter((f) => f !== filter));
+  };
+
+  const clearAll = () => setActiveFilters([]);
+
   return (
     <div className="search-page container">
       {/* Search bar */}
-      <div className="search-pg-logo">
-        <div className="earch-pg-logo">
-        <img src={squre_logo} alt="Logo" />
-        </div>
-    
-      </div>
       <div className="search-bar">
-        <input type="text" placeholder="Job title, skill, company, keyword" />
+        <input
+          type="text"
+          placeholder="Job title, skill, company, keyword"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
         <button className="search-btn">
           <FaSearch />
         </button>
@@ -24,30 +40,44 @@ const SearchPage = () => {
 
       {/* Filters row */}
       <div className="filters-row">
-        <button className="filter-btn">Filter 1</button>
-        <button className="filter-btn">Filter 2</button>
-        <button className="filter-btn">Filter 3</button>
-        <button className="filter-btn">Filter 4</button>
+        {filters.map((filter) => (
+          <button
+            key={filter}
+            className={`filter-btn ${
+              activeFilters.includes(filter) ? "active" : ""
+            }`}
+            onClick={() => toggleFilter(filter)}
+          >
+            {filter}
+          </button>
+        ))}
       </div>
 
       {/* Divider */}
       <div className="divider" />
 
       {/* Active filters */}
-      <div className="active-filters">
-        <div className="filter-tag">
-          Filter 2 <FaTimes />
-        </div>
-        <div className="filter-tag">
-          Filter 3 <FaTimes />
-        </div>
+      {activeFilters.length > 0 && (
+        <div className="active-filters">
+          {activeFilters.map((filter) => (
+            <div key={filter} className="filter-tag">
+              {filter}
+              <FaTimes
+                onClick={() => removeFilter(filter)}
+                style={{ cursor: "pointer" }}
+              />
+            </div>
+          ))}
 
-        <div className="remove-filters">
-          <FaTimes />
-          <span>Remove filters</span>
+          <div className="remove-filters" onClick={clearAll}>
+            <FaTimes />
+            <span>Remove all filters</span>
+          </div>
         </div>
-      </div>
-      <JobSection />
+      )}
+
+      {/* Job list + details */}
+      <JobSection activeFilters={activeFilters} searchQuery={searchQuery} />
     </div>
   );
 };
