@@ -221,7 +221,7 @@
   border-radius: 10px;
 }
 
-.apply-btn {
+/* .apply-btn {
   background: #3b82f6;
   color: white;
   border: none;
@@ -229,11 +229,24 @@
   border-radius: 8px;
   cursor: pointer;
   font-size: 16px;
+} */
+
+.apply-btn {
+  display: inline-block;
+  background-color: #2563eb; /* A more professional modern blue */
+  color: white;
+  padding: 10px 24px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  border-radius: 8px; /* Matches your card corners */
+  transition: background-color 0.2s ease;
+  margin: 15px 0; /* Add space so it doesn't touch the text */
 }
 
 .apply-btn:hover {
-  background: #2563eb;
-}
+  background-color: #1d4ed8; /* Darkens slightly when hovered */
+  text-decoration: none;}
 
 .job-details h2 {
   margin-top: 16px;
