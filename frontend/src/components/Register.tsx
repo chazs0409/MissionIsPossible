@@ -34,6 +34,8 @@ const Register: React.FC = () => {
     } else {
       alert(data.error);
     }
+
+    console.log(name, lastName, email, password);
   };
 
   return (

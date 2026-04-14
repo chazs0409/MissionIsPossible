@@ -5,11 +5,16 @@ from rest_framework import status
 from rest_framework import generics
 from .models import Job
 from .serializers import JobSerializer
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth.hashers import make_password
 from .models import User
+from rest_framework.permissions import AllowAny
+# from django.contrib.auth import get_user_model
+
+
+
 class JobList(generics.ListAPIView):
     queryset = Job.objects.all()
     serializer_class = JobSerializer
@@ -25,6 +30,7 @@ class HealthCheckView(APIView):
         }, status=status.HTTP_200_OK)
 
 @api_view(['POST'])
+@permission_classes([AllowAny])
 def register(request):
     name = request.data.get("name")
     last_name = request.data.get("last_name")

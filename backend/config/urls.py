@@ -4,6 +4,8 @@ from django.http import JsonResponse
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+from api.views import register
+
 
 # Add this simple view
 def home(request):
@@ -28,9 +30,12 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
-    path('', home, name='home'),  # ← Add this line
+    path('', home, name='home'),
     path('admin/', admin.site.urls),
     path('api/', include('api.urls')),
+    path('api/register/', register, name='register'),
+
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 ]
+
