@@ -2,6 +2,8 @@ import { useState } from "react";
 import { FaSearch, FaTimes } from "react-icons/fa";
 import "./componentcss/searchpage.css";
 import JobSection from "./Job";
+import logo from "../assets/square_one_logo.png";
+import { useNavigate } from "react-router-dom";
 
 const filters = ["Full-Time", "Part-Time", "Remote", "Onsite", "Internship"];
 
@@ -22,9 +24,11 @@ const SearchPage = () => {
   };
 
   const clearAll = () => setActiveFilters([]);
+  const navigate = useNavigate();
 
   return (
     <div className="search-page container">
+      <img src={logo} className="logo" onClick={() => navigate("/")} />
       {/* Search bar */}
       <div className="search-bar">
         <input
