@@ -167,6 +167,9 @@ const AdminDashboard = () => {
           className="admin-logo"
           onClick={() => navigate("/")}
         />
+        <button className="admin-tab" onClick={() => navigate("/search")}>
+          Jobs
+        </button>
 
         <button className="signout-btn" onClick={handleSignOut}>
           Sign Out

@@ -18,6 +18,10 @@ from api.models import User
 from .models import Company
 from .serializers import CompanySerializer
 
+from rest_framework.permissions import IsAuthenticated
+
+
+
 @api_view(['POST'])
 def login_view(request):
     email = request.data.get("email")
@@ -127,3 +131,14 @@ def companies_list(request):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=400)
+    
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def save_job(request, job_id):
+    user = request.user
+    try:
+        job = Job.objects.get(id=job_id)
+        user.saved_jobs.add(job)
+        return Response({"message": "Job saved successfully"})
+    except Job.DoesNotExist:
+        return Response({"error": "Job not found"}, status=404)

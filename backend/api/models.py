@@ -43,7 +43,7 @@ class User(AbstractUser):
     email = models.EmailField(unique=True)
 
     admin_id = models.CharField(max_length=50, unique=True, null=True, blank=True)
-
+    saved_jobs = models.ManyToManyField(Job, blank=True)
     role = models.CharField(
         max_length=10,
         choices=[('user', 'User'), ('admin', 'Admin')],

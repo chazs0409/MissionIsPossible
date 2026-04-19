@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import JobList
+from .views import JobList, save_job
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from .views import HealthCheckView
 from .views import login_view
@@ -11,4 +11,5 @@ urlpatterns = [
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path("login/", login_view),
     path("companies/", companies_list),
+    path("save-job/<int:job_id>/", save_job),
 ]
