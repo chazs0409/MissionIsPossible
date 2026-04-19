@@ -18,8 +18,8 @@ const Landingpage = () => {
             <a href="#" className="nav-link">
               Contact
             </a>
-            <a href="#" className="nav-link signup">
-              Sign Up
+            <a href="#" className="nav-link signup" onClick={() => navigate("/signin")}>
+              Sign In
             </a>
           </nav>
         </header>
@@ -37,8 +37,8 @@ const Landingpage = () => {
               companies that actually hire international students.
             </p>
 
-            <button className="primary-btn" onClick={() => navigate("/search")}>
-              Continue with Email
+            <button className="primary-btn" onClick={() => navigate("/register")}>
+              Register with Email
             </button>
             <a className="guest-link" href="#">
               Continue as a guest →
