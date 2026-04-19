@@ -15,7 +15,8 @@ from django.contrib.auth import authenticate
 
 from rest_framework_simplejwt.tokens import RefreshToken
 from api.models import User
-
+from .models import Company
+from .serializers import CompanySerializer
 
 @api_view(['POST'])
 def login_view(request):
@@ -56,7 +57,7 @@ def admin_required(view_func):
             return redirect('/no-access/')
         return view_func(request, *args, **kwargs)
     return wrapper
-class JobList(generics.ListAPIView):
+class JobList(generics.ListCreateAPIView):
     queryset = Job.objects.all()
     serializer_class = JobSerializer
     permission_classes = [AllowAny] 
@@ -112,3 +113,17 @@ def login_view(request):
             "role": user.role,
         }
     })
+
+@api_view(["GET", "POST"])
+def companies_list(request):
+    if request.method == "GET":
+        companies = Company.objects.all()
+        serializer = CompanySerializer(companies, many=True)
+        return Response(serializer.data)
+
+    if request.method == "POST":
+        serializer = CompanySerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=400)
