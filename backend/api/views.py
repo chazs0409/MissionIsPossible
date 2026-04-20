@@ -19,6 +19,10 @@ from .models import Company
 from .serializers import CompanySerializer
 
 from rest_framework.permissions import IsAuthenticated
+from .serializers import UserSerializer
+from django.core.mail import send_mail
+from rest_framework.decorators import api_view, permission_classes, parser_classes
+from rest_framework.parsers import MultiPartParser, FormParser
 
 
 
@@ -142,3 +146,35 @@ def save_job(request, job_id):
         return Response({"message": "Job saved successfully"})
     except Job.DoesNotExist:
         return Response({"error": "Job not found"}, status=404)
+    
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def get_user_profile(request):
+    user = request.user
+    serializer = UserSerializer(user)
+    return Response(serializer.data)
+
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+@parser_classes([MultiPartParser, FormParser])
+def upload_resume(request):
+    user = request.user
+
+    if "resume" not in request.FILES:
+        return Response({"error": "No file uploaded"}, status=400)
+
+    file = request.FILES["resume"]
+    user.resume = file
+    user.save()
+
+    # Send email notification
+    send_mail(
+        subject="Resume Uploaded Successfully",
+        message="Your resume has been uploaded successfully to your SquareOne profile.",
+        from_email="no-reply@squareone.com",
+        recipient_list=[user.email],
+        fail_silently=False,
+    )
+
+    return Response({"message": "Resume uploaded successfully"})
