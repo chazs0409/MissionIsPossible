@@ -67,6 +67,25 @@ const JobSection = ({
   if (!selectedJob) {
     return <p style={{ padding: "20px" }}>Loading jobs...</p>;
   }
+  //Save jobs
+  const handleSaveJob = async (jobId: number) => {
+    try {
+      const token = localStorage.getItem("access"); // JWT
+
+      const res = await fetch(`http://localhost:8000/api/save-job/${jobId}/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = await res.json();
+      alert(data.message || "Saved!");
+    } catch (error) {
+      console.error("Error saving job:", error);
+    }
+  };
 
   return (
     <div className="job-page">
@@ -106,12 +125,21 @@ const JobSection = ({
       <div className="job-details">
         <div className="details-header">
           <div className="job-icon-large" />
-          <button
-            className="apply-btn"
-            onClick={() => window.open(selectedJob.job_url, "_blank")}
-          >
-            Apply
-          </button>
+          <div>
+            {" "}
+            <button
+              className="apply-btn"
+              onClick={() => window.open(selectedJob.job_url, "_blank")}
+            >
+              Apply
+            </button>
+            <button
+              className="save-btn"
+              onClick={() => handleSaveJob(selectedJob.id)}
+            >
+              Save
+            </button>
+          </div>
         </div>
 
         <h3>{selectedJob.title}</h3>

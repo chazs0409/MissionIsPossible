@@ -28,7 +28,25 @@ const SearchPage = () => {
 
   return (
     <div className="search-page container">
-      <img src={logo} className="logo" onClick={() => navigate("/")} />
+      <div className="header_search">
+        <img src={logo} className="logo" onClick={() => navigate("/")} />
+        <div className="profile-icon" onClick={() => navigate("/profile")}>
+          <svg
+            width="32"
+            height="32"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#4B5563"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <circle cx="12" cy="7" r="4"></circle>
+            <path d="M5.5 21c1.5-4 5-6 6.5-6s5 2 6.5 6"></path>
+          </svg>
+        </div>
+      </div>
+
       {/* Search bar */}
       <div className="search-bar">
         <input
