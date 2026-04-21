@@ -43,7 +43,8 @@ class User(AbstractUser):
     email = models.EmailField(unique=True)
 
     admin_id = models.CharField(max_length=50, unique=True, null=True, blank=True)
-
+    saved_jobs = models.ManyToManyField(Job, blank=True)
+    resume = models.FileField(upload_to="resumes/", blank=True, null=True)
     role = models.CharField(
         max_length=10,
         choices=[('user', 'User'), ('admin', 'Admin')],
@@ -67,6 +68,15 @@ class User(AbstractUser):
     def __str__(self):
         return self.email
 
+class Company(models.Model):
+    id = models.BigIntegerField(primary_key=True)
+    name = models.CharField(max_length=255)
+    location = models.CharField(max_length=255)
+    website = models.CharField(max_length=255, blank=True)
+    description = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.name
 # import uuid
 
 # from django.db import models

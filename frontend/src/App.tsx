@@ -4,6 +4,7 @@ import SearchPage from "./components/SearchPage";
 import AdminDashboard from "./components/AdminDashboard";
 import Register from "./components/Register";
 import SignIn from "./components/SignIn";
+import ProfilePage from "./components/Profile";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/register" element={<Register />} />
         <Route path="/signin" element={<SignIn />} />
+        <Route path="/profile" element={<ProfilePage />} />
       </Routes>
     </BrowserRouter>
   );
