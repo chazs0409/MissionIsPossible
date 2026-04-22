@@ -58,9 +58,9 @@
 }
 
 .admin-tab.active {
-  background: #2563eb;
+  background: #1a6b3c;
   color: white;
-  border-color: #2563eb;
+  border-color: #1a6b3c;
 }
 
 .admin-card {
@@ -87,7 +87,7 @@
 
 .admin-btn {
   margin-top: 10px;
-  background: #2563eb;
+  background: #1a6b3c;
   color: white;
   padding: 12px;
   border: none;
