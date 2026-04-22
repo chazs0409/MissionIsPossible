@@ -43,7 +43,6 @@ class User(AbstractUser):
     email = models.EmailField(unique=True)
 
     admin_id = models.CharField(max_length=50, unique=True, null=True, blank=True)
-    saved_jobs = models.ManyToManyField(Job, blank=True)
     resume = models.FileField(upload_to="resumes/", blank=True, null=True)
     role = models.CharField(
         max_length=10,
@@ -54,7 +53,8 @@ class User(AbstractUser):
     name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
 
-    saved_jobs = models.ManyToManyField(Job, blank=True)
+    saved_jobs = models.ManyToManyField(Job, blank=True, related_name="saved_by")
+    applied_jobs = models.ManyToManyField(Job, blank=True, related_name="applied_by")
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["name", "last_name"]
