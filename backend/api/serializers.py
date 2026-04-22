@@ -12,7 +12,8 @@ class CompanySerializer(serializers.ModelSerializer):
         fields = "__all__"
 class UserSerializer(serializers.ModelSerializer):
     saved_jobs = JobSerializer(many=True)
+    applied_jobs = JobSerializer(many=True)
 
     class Meta:
         model = User
-        fields = ["id", "name", "last_name", "email", "saved_jobs", "resume"]
+        fields = ["id", "name", "last_name", "email", "saved_jobs", "applied_jobs", "resume"]

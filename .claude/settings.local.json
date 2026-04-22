@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -m py_compile backend/api/models.py backend/api/views.py backend/api/serializers.py backend/config/settings.py backend/config/urls.py)",
+      "Bash(grep -E \"\\\\.\\(tsx|ts\\)$\")",
+      "Bash(npm install *)",
+      "Bash(npm list *)",
+      "Bash(npx tsc *)"
+    ]
+  }
+}

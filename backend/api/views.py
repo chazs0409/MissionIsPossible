@@ -143,10 +143,51 @@ def save_job(request, job_id):
     try:
         job = Job.objects.get(id=job_id)
         user.saved_jobs.add(job)
+        try:
+            send_mail(
+                subject=f"Job Saved: {job.title}",
+                message=(
+                    f"Hi {user.name},\n\n"
+                    f"You saved \"{job.title}\" at {job.company_name} ({job.location}).\n\n"
+                    f"Log in to SquareOne to view your saved jobs and apply.\n\n"
+                    f"— The SquareOne Team"
+                ),
+                from_email=None,
+                recipient_list=[user.email],
+                fail_silently=False,
+            )
+        except Exception:
+            pass
         return Response({"message": "Job saved successfully"})
     except Job.DoesNotExist:
         return Response({"error": "Job not found"}, status=404)
     
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def apply_job(request, job_id):
+    user = request.user
+    try:
+        job = Job.objects.get(id=job_id)
+        user.applied_jobs.add(job)
+        try:
+            send_mail(
+                subject=f"Application Tracked: {job.title}",
+                message=(
+                    f"Hi {user.name},\n\n"
+                    f"You marked \"{job.title}\" at {job.company_name} ({job.location}) as applied.\n\n"
+                    f"We'll keep it in your Applied tab so you can track your progress.\n\n"
+                    f"— The SquareOne Team"
+                ),
+                from_email=None,
+                recipient_list=[user.email],
+                fail_silently=False,
+            )
+        except Exception:
+            pass
+        return Response({"message": "Job marked as applied"})
+    except Job.DoesNotExist:
+        return Response({"error": "Job not found"}, status=404)
+
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def get_user_profile(request):
@@ -168,13 +209,16 @@ def upload_resume(request):
     user.resume = file
     user.save()
 
-    # Send email notification
     send_mail(
         subject="Resume Uploaded Successfully",
-        message="Your resume has been uploaded successfully to your SquareOne profile.",
-        from_email="no-reply@squareone.com",
+        message=(
+            f"Hi {user.name},\n\n"
+            f"Your resume has been uploaded successfully to your SquareOne profile.\n\n"
+            f"— The SquareOne Team"
+        ),
+        from_email=None,
         recipient_list=[user.email],
-        fail_silently=False,
+        fail_silently=True,
     )
 
     return Response({"message": "Resume uploaded successfully"})

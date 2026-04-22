@@ -75,3 +75,60 @@
   border-radius: 8px;
   margin-bottom: 10px;
 }
+
+.apply-btn {
+  margin-top: 8px;
+  padding: 6px 16px;
+  background: #1a6b3c;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.apply-btn.applied {
+  background: #6b7280;
+  cursor: default;
+}
+
+.applied-badge {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 4px 12px;
+  background: #d1fae5;
+  color: #065f46;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.analytics-section {
+  padding: 10px 0;
+}
+
+.analytics-section h3 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.saved-count {
+  color: #6b7280;
+  font-size: 0.9rem;
+  margin-bottom: 24px;
+}
+
+.chart-wrapper {
+  background: #f9fafb;
+  border-radius: 12px;
+  padding: 24px 24px 32px;
+  overflow: visible;
+}
+
+.chart-wrapper h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #374151;
+}
