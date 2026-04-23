@@ -345,14 +345,14 @@ const ProfilePage = () => {
                     <ResponsiveContainer width="100%" height={420}>
                       <PieChart>
                         <Pie data={chartData} cx="50%" cy="50%" outerRadius={100} dataKey="value"
-                          label={({ name, percent }) => `${name} (${Math.round(percent * 100)}%)`}
+                          label={({ name, percent }: { name: string; percent?: number }) => `${name} (${Math.round((percent ?? 0) * 100)}%)`}
                           labelLine={true}
                         >
                           {chartData.map((_, index) => (
                             <Cell key={index} fill={COLORS[index % COLORS.length]} />
                           ))}
                         </Pie>
-                        <Tooltip formatter={(value: number, name: string) => [`Count: ${value} job${value > 1 ? "s" : ""}`, name]} />
+                        <Tooltip formatter={(value, name) => { const v = Number(value ?? 0); return [`Count: ${v} job${v > 1 ? "s" : ""}`, name]; }} />
                         <Legend wrapperStyle={{ color: "#111827", fontSize: "0.85rem" }} />
                       </PieChart>
                     </ResponsiveContainer>
