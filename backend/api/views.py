@@ -9,8 +9,8 @@ from django.contrib.auth import authenticate
 from django.core.mail import send_mail
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from .models import Job, User, Company, JobApplication
-from .serializers import JobSerializer, CompanySerializer, UserSerializer, JobApplicationSerializer
+from .models import Job, User, Company, JobApplication, Resume
+from .serializers import JobSerializer, CompanySerializer, UserSerializer, JobApplicationSerializer, ResumeSerializer
 
 
 class JobList(generics.ListCreateAPIView):
@@ -123,9 +123,20 @@ def unsave_job(request, job_id):
 @permission_classes([IsAuthenticated])
 def apply_job(request, job_id):
     user = request.user
+    resume_id = request.data.get("resume_id")
     try:
         job = Job.objects.get(id=job_id)
-        application, created = JobApplication.objects.get_or_create(user=user, job=job)
+        resume = None
+        if resume_id:
+            try:
+                resume = Resume.objects.get(id=resume_id, user=user)
+            except Resume.DoesNotExist:
+                pass
+        application, created = JobApplication.objects.get_or_create(
+            user=user,
+            job=job,
+            defaults={"resume": resume},
+        )
         if created:
             try:
                 send_mail(
@@ -175,6 +186,7 @@ def get_user_profile(request):
 @permission_classes([IsAuthenticated])
 @parser_classes([MultiPartParser, FormParser])
 def upload_resume(request):
+    """Legacy single-resume upload — kept for backwards compatibility."""
     user = request.user
     if "resume" not in request.FILES:
         return Response({"error": "No file uploaded"}, status=400)
@@ -196,3 +208,48 @@ def upload_resume(request):
     except Exception:
         pass
     return Response({"message": "Resume uploaded successfully"})
+
+
+@api_view(["GET", "POST"])
+@permission_classes([IsAuthenticated])
+@parser_classes([MultiPartParser, FormParser])
+def resume_list(request):
+    user = request.user
+    if request.method == "GET":
+        resumes = Resume.objects.filter(user=user).order_by("-uploaded_at")
+        return Response(ResumeSerializer(resumes, many=True).data)
+
+    name = request.data.get("name", "").strip() or "Resume"
+    file = request.FILES.get("file")
+    if not file:
+        return Response({"error": "No file uploaded"}, status=400)
+
+    resume = Resume.objects.create(user=user, name=name, file=file)
+    try:
+        send_mail(
+            subject=f"Resume Uploaded: {name}",
+            message=(
+                f"Hi {user.name},\n\n"
+                f"Your resume \"{name}\" has been uploaded to SquareOne.\n\n"
+                f"You can now select it when applying to jobs.\n\n"
+                f"— The SquareOne Team"
+            ),
+            from_email=None,
+            recipient_list=[user.email],
+            fail_silently=False,
+        )
+    except Exception:
+        pass
+    return Response(ResumeSerializer(resume).data, status=201)
+
+
+@api_view(["DELETE"])
+@permission_classes([IsAuthenticated])
+def delete_resume(request, resume_id):
+    try:
+        resume = Resume.objects.get(id=resume_id, user=request.user)
+        resume.file.delete(save=False)
+        resume.delete()
+        return Response({"message": "Resume deleted"})
+    except Resume.DoesNotExist:
+        return Response({"error": "Resume not found"}, status=404)

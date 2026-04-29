@@ -42,7 +42,7 @@ class User(AbstractUser):
     username = None
     email = models.EmailField(unique=True)
     admin_id = models.CharField(max_length=50, unique=True, null=True, blank=True)
-    resume = models.FileField(upload_to="resumes/", blank=True, null=True)
+    resume = models.FileField(upload_to="resumes/", blank=True, null=True)  # kept for backwards compat
     role = models.CharField(
         max_length=10,
         choices=[('user', 'User'), ('admin', 'Admin')],
@@ -64,6 +64,16 @@ class User(AbstractUser):
         return self.email
 
 
+class Resume(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='resumes')
+    name = models.CharField(max_length=255)
+    file = models.FileField(upload_to='resumes/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.email} - {self.name}"
+
+
 class JobApplication(models.Model):
     STATUS_CHOICES = [
         ('applied', 'Applied'),
@@ -73,6 +83,7 @@ class JobApplication(models.Model):
     ]
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='applications')
     job = models.ForeignKey(Job, on_delete=models.CASCADE, related_name='applications')
+    resume = models.ForeignKey(Resume, on_delete=models.SET_NULL, null=True, blank=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='applied')
     created_at = models.DateTimeField(auto_now_add=True)
 

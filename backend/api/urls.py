@@ -6,6 +6,7 @@ from .views import (
     JobList, HealthCheckView, login_view, companies_list,
     save_job, unsave_job, apply_job, update_application_status,
     get_user_profile, upload_resume, register,
+    resume_list, delete_resume,
 )
 
 urlpatterns = [
@@ -22,4 +23,6 @@ urlpatterns = [
     path("application/<int:job_id>/status/", update_application_status),
     path("profile/", get_user_profile),
     path("upload-resume/", upload_resume),
+    path("resumes/", resume_list),
+    path("resumes/<int:resume_id>/", delete_resume),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
