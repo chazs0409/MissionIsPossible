@@ -17,8 +17,19 @@ AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
 AWS_SES_REGION_NAME = os.environ.get("AWS_SES_REGION_NAME", "us-east-1")
 AWS_SES_REGION_ENDPOINT = f"email.{os.environ.get('AWS_SES_REGION_NAME', 'us-east-1')}.amazonaws.com"
 DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "no-reply@squareone.com")
-MEDIA_URL = "/media/"
-MEDIA_ROOT = BASE_DIR / "media"
+
+# S3 Storage for media files (resumes, uploads)
+AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_S3_BUCKET_NAME")
+AWS_S3_REGION_NAME = os.environ.get("AWS_S3_REGION_NAME", "us-east-1")
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = None
+
+if AWS_STORAGE_BUCKET_NAME:
+    DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+    MEDIA_URL = f"https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/"
+else:
+    MEDIA_URL = "/media/"
+    MEDIA_ROOT = BASE_DIR / "media"
 
 # Application definition
 INSTALLED_APPS = [
@@ -35,6 +46,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'drf_yasg',
     'django_ses',
+    'storages',
     
     # Local apps
     'api',
