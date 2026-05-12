@@ -4,6 +4,13 @@ import logo from "../assets/square_one_logo.png";
 import { useNavigate } from "react-router";
 import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from "recharts";
 
+interface Resume {
+  id: number;
+  name: string;
+  file: string;
+  uploaded_at: string;
+}
+
 interface Job {
   id: number;
   title: string;
@@ -15,6 +22,7 @@ interface Job {
 interface Application {
   id: number;
   job: Job;
+  resume: Resume | null;
   status: "applied" | "interviewing" | "offer" | "rejected";
   created_at: string;
 }
@@ -26,6 +34,7 @@ interface User {
   email: string;
   saved_jobs: Job[];
   applications: Application[];
+  resumes: Resume[];
   resume: string | null;
 }
 
@@ -50,6 +59,8 @@ const ProfilePage = () => {
   const [activeTab, setActiveTab] = useState("info");
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [search, setSearch] = useState("");
+  const [selectedResumeId, setSelectedResumeId] = useState<Record<number, number>>({});
+  const [resumeName, setResumeName] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -64,15 +75,29 @@ const ProfilePage = () => {
   const handleResumeUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+    const name = resumeName.trim() || file.name.replace(".pdf", "");
     const formData = new FormData();
-    formData.append("resume", file);
-    const res = await fetch("http://localhost:8000/api/upload-resume/", {
+    formData.append("file", file);
+    formData.append("name", name);
+    const res = await fetch("http://localhost:8000/api/resumes/", {
       method: "POST",
       headers: { Authorization: `Bearer ${TOKEN()}` },
       body: formData,
     });
-    const data = await res.json();
-    alert(data.message);
+    const data: Resume = await res.json();
+    setUser((prev) => prev ? { ...prev, resumes: [data, ...prev.resumes] } : prev);
+    setResumeName("");
+    e.target.value = "";
+  };
+
+  const handleDeleteResume = async (resumeId: number) => {
+    await fetch(`http://localhost:8000/api/resumes/${resumeId}/`, {
+      method: "DELETE",
+      headers: { Authorization: `Bearer ${TOKEN()}` },
+    });
+    setUser((prev) =>
+      prev ? { ...prev, resumes: prev.resumes.filter((r) => r.id !== resumeId) } : prev
+    );
   };
 
   const handleUnsave = async (jobId: number) => {
@@ -86,17 +111,21 @@ const ProfilePage = () => {
   };
 
   const handleApply = async (job: Job) => {
+    const resumeId = selectedResumeId[job.id];
     await fetch(`http://localhost:8000/api/apply-job/${job.id}/`, {
       method: "POST",
-      headers: { Authorization: `Bearer ${TOKEN()}` },
+      headers: { Authorization: `Bearer ${TOKEN()}`, "Content-Type": "application/json" },
+      body: JSON.stringify(resumeId ? { resume_id: resumeId } : {}),
     });
     setUser((prev) => {
       if (!prev) return prev;
       const exists = prev.applications.some((a) => a.job.id === job.id);
       if (exists) return prev;
+      const resume = resumeId ? prev.resumes.find((r) => r.id === resumeId) ?? null : null;
       const newApp: Application = {
         id: Date.now(),
         job,
+        resume,
         status: "applied",
         created_at: new Date().toISOString(),
       };
@@ -194,19 +223,53 @@ const ProfilePage = () => {
                 <p><strong>Name:</strong> {user.name}</p>
                 <p><strong>Last Name:</strong> {user.last_name}</p>
                 <p><strong>Email:</strong> {user.email}</p>
+
+                {/* Multi-resume section */}
                 <div className="resume-box">
-                  <p>
-                    <strong>Resume:</strong>{" "}
-                    {user.resume ? (
-                      <a href={`http://localhost:8000${user.resume}`} target="_blank" rel="noopener noreferrer" className="resume-link">
-                        Download Resume
-                      </a>
-                    ) : "No resume uploaded"}
-                  </p>
-                  <input type="file" accept="application/pdf" id="resumeUpload" style={{ display: "none" }} onChange={handleResumeUpload} />
-                  <button className="upload-btn" onClick={() => document.getElementById("resumeUpload")?.click()}>
-                    Upload Resume (PDF)
-                  </button>
+                  <strong>Resumes ({user.resumes.length})</strong>
+
+                  {user.resumes.length > 0 && (
+                    <ul className="resume-list">
+                      {user.resumes.map((r) => (
+                        <li key={r.id} className="resume-item">
+                          <div className="resume-item-info">
+                            <span className="resume-item-name">{r.name}</span>
+                            <span className="resume-item-date">
+                              {new Date(r.uploaded_at).toLocaleDateString()}
+                            </span>
+                          </div>
+                          <div className="resume-item-actions">
+                            <a href={r.file} target="_blank" rel="noopener noreferrer" className="resume-link">
+                              Download
+                            </a>
+                            <button className="unsave-btn" onClick={() => handleDeleteResume(r.id)}>
+                              Delete
+                            </button>
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+
+                  <div className="resume-upload-row">
+                    <input
+                      type="text"
+                      className="search-input"
+                      placeholder="Resume name (e.g. Software Engineer Resume)"
+                      value={resumeName}
+                      onChange={(e) => setResumeName(e.target.value)}
+                    />
+                    <input
+                      type="file"
+                      accept="application/pdf"
+                      id="resumeUpload"
+                      style={{ display: "none" }}
+                      onChange={handleResumeUpload}
+                    />
+                    <button className="upload-btn" onClick={() => document.getElementById("resumeUpload")?.click()}>
+                      Upload Resume (PDF)
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -238,6 +301,23 @@ const ProfilePage = () => {
                           <p>{job.salary}</p>
                         </div>
                         <div className="job-card-actions">
+                          {!alreadyApplied && user.resumes.length > 0 && (
+                            <select
+                              className="status-select"
+                              value={selectedResumeId[job.id] ?? ""}
+                              onChange={(e) =>
+                                setSelectedResumeId((prev) => ({
+                                  ...prev,
+                                  [job.id]: Number(e.target.value),
+                                }))
+                              }
+                            >
+                              <option value="">Select resume</option>
+                              {user.resumes.map((r) => (
+                                <option key={r.id} value={r.id}>{r.name}</option>
+                              ))}
+                            </select>
+                          )}
                           <button
                             className={`apply-btn ${alreadyApplied ? "applied" : ""}`}
                             disabled={alreadyApplied}
@@ -287,6 +367,14 @@ const ProfilePage = () => {
                         <p>{app.job.company_name}</p>
                         <p>{app.job.location}</p>
                         <p>{app.job.salary}</p>
+                        {app.resume && (
+                          <p className="applied-resume-label">
+                            Resume:{" "}
+                            <a href={app.resume.file} target="_blank" rel="noopener noreferrer" className="resume-link">
+                              {app.resume.name}
+                            </a>
+                          </p>
+                        )}
                       </div>
                       <div className="job-card-actions">
                         <span className="status-badge" style={{ background: STATUS_COLORS[app.status] }}>
@@ -326,7 +414,7 @@ const ProfilePage = () => {
             return (
               <div className="analytics-section">
                 <h3>My Applications</h3>
-                <p className="saved-count">{user.saved_jobs.length} jobs saved · {user.applications.length} applied</p>
+                <p className="saved-count">{user.saved_jobs.length} jobs saved · {user.applications.length} applied · {user.resumes.length} resume{user.resumes.length !== 1 ? "s" : ""}</p>
 
                 <div className="analytics-stats">
                   {Object.entries(statusCounts).map(([s, count]) => (
@@ -345,7 +433,7 @@ const ProfilePage = () => {
                     <ResponsiveContainer width="100%" height={420}>
                       <PieChart>
                         <Pie data={chartData} cx="50%" cy="50%" outerRadius={100} dataKey="value"
-                          label={({ name, percent }: { name: string; percent?: number }) => `${name} (${Math.round((percent ?? 0) * 100)}%)`}
+                          label={({ name, percent }: { name?: string; percent?: number }) => `${name ?? ''} (${Math.round((percent ?? 0) * 100)}%)`}
                           labelLine={true}
                         >
                           {chartData.map((_, index) => (
