@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { API_BASE_URL } from "../api/client";
 import "./componentcss/searchpage.css";
 
 interface Job {
@@ -29,7 +30,7 @@ const JobSection = ({
 
   // Fetch jobs from backend
   useEffect(() => {
-    fetch("http://localhost:8000/api/jobs/")
+    fetch(`${API_BASE_URL}/api/jobs/`)
       .then((res) => res.json())
       .then((data) => {
         const jobList = Array.isArray(data) ? data : data.results;
@@ -72,7 +73,7 @@ const JobSection = ({
     try {
       const token = localStorage.getItem("access"); // JWT
 
-      const res = await fetch(`http://localhost:8000/api/save-job/${jobId}/`, {
+      const res = await fetch(`${API_BASE_URL}/api/save-job/${jobId}/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -103,7 +104,6 @@ const JobSection = ({
               onClick={() => setSelectedJob(job)}
             >
               <div className="job-card-header">
-                <div className="job-icon" />
                 <button className="apply-btn-small">Apply</button>
               </div>
 
@@ -124,7 +124,6 @@ const JobSection = ({
       {/* RIGHT SIDE — JOB DETAILS */}
       <div className="job-details">
         <div className="details-header">
-          <div className="job-icon-large" />
           <div>
             {" "}
             <button

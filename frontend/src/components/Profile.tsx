@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import "./componentcss/profile.css";
 import logo from "../assets/square_one_logo.png";
 import { useNavigate } from "react-router";
+import { API_BASE_URL } from "../api/client";
 import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from "recharts";
 
 interface Resume {
@@ -64,7 +65,7 @@ const ProfilePage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://localhost:8000/api/profile/", {
+    fetch(`${API_BASE_URL}/api/profile/`, {
       headers: { Authorization: `Bearer ${TOKEN()}` },
     })
       .then((res) => res.json())
@@ -79,7 +80,7 @@ const ProfilePage = () => {
     const formData = new FormData();
     formData.append("file", file);
     formData.append("name", name);
-    const res = await fetch("http://localhost:8000/api/resumes/", {
+    const res = await fetch(`${API_BASE_URL}/api/resumes/`, {
       method: "POST",
       headers: { Authorization: `Bearer ${TOKEN()}` },
       body: formData,
@@ -91,7 +92,7 @@ const ProfilePage = () => {
   };
 
   const handleDeleteResume = async (resumeId: number) => {
-    await fetch(`http://localhost:8000/api/resumes/${resumeId}/`, {
+    await fetch(`${API_BASE_URL}/api/resumes/${resumeId}/`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${TOKEN()}` },
     });
@@ -101,7 +102,7 @@ const ProfilePage = () => {
   };
 
   const handleUnsave = async (jobId: number) => {
-    await fetch(`http://localhost:8000/api/unsave-job/${jobId}/`, {
+    await fetch(`${API_BASE_URL}/api/unsave-job/${jobId}/`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${TOKEN()}` },
     });
@@ -112,7 +113,7 @@ const ProfilePage = () => {
 
   const handleApply = async (job: Job) => {
     const resumeId = selectedResumeId[job.id];
-    await fetch(`http://localhost:8000/api/apply-job/${job.id}/`, {
+    await fetch(`${API_BASE_URL}/api/apply-job/${job.id}/`, {
       method: "POST",
       headers: { Authorization: `Bearer ${TOKEN()}`, "Content-Type": "application/json" },
       body: JSON.stringify(resumeId ? { resume_id: resumeId } : {}),
@@ -134,7 +135,7 @@ const ProfilePage = () => {
   };
 
   const handleStatusChange = async (jobId: number, newStatus: string) => {
-    await fetch(`http://localhost:8000/api/application/${jobId}/status/`, {
+    await fetch(`${API_BASE_URL}/api/application/${jobId}/status/`, {
       method: "PATCH",
       headers: { Authorization: `Bearer ${TOKEN()}`, "Content-Type": "application/json" },
       body: JSON.stringify({ status: newStatus }),

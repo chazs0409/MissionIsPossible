@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./componentcss/signin.css";
+import { API_BASE_URL } from "../api/client";
 
 export default function SignIn() {
   const navigate = useNavigate();
@@ -12,7 +13,7 @@ export default function SignIn() {
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const response = await fetch("http://localhost:8000/api/login/", {
+    const response = await fetch(`${API_BASE_URL}/api/login/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),

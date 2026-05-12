@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./componentcss/register.css";
 import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../api/client";
 
 const Register: React.FC = () => {
   const [name, setName] = useState("");
@@ -12,7 +13,7 @@ const Register: React.FC = () => {
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const response = await fetch("http://localhost:8000/api/register/", {
+    const response = await fetch(`${API_BASE_URL}/api/register/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
